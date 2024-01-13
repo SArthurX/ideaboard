@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  tutorial:
+    image: postgres
+    container_name: tutorial
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+

@@ -38,6 +38,7 @@
             pkgs.docker
             pkgs.docker-compose
             pkgs.jq
+            pkgs.postgresql # for psql
           ];
           shellHook = ''
             postgrest --version
