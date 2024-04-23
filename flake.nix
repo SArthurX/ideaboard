@@ -10,29 +10,20 @@
   outputs = { self, nixpkgs, flake-utils }:
   flake-utils.lib.eachDefaultSystem (system:
     let
-      pkgs = import nixpkgs { 
-        inherit system; 
-        virtualisation.docker = {
-          enable = true;
-          rootless = true;
-        };
-      };
+      pkgs = import nixpkgs { inherit system; };
     in
     {
       devShell = pkgs.mkShell {
         packages = with pkgs; [
-          postgrest
           cowsay
-          docker
-          docker-compose
+          podman
+          podman-compose
           jq
-          postgresql # for psql
         ];
 
         shellHook = 
         ''
-          postgrest --version
-          export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+          podman-compose up -d
         '';
       };
     }

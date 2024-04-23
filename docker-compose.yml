@@ -1,11 +1,31 @@
 version: '3'
 
 services:
-  tutorial:
-    image: postgres
-    container_name: tutorial
-    ports:
-      - "5433:5432"
+  postgres:
+    image: docker.io/library/postgres:latest
+    container_name: postgres
     environment:
       POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+    #  - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+    restart: always
 
+  postgrest:
+      image: docker.io/postgrest/postgrest:latest
+      container_name: postgrest
+      depends_on:
+        - postgres
+      ports:
+      - "3000:3000"
+      environment:
+        PGRST_DB_URI: "postgres://authenticator:mysecretpassword@postgres:5432/postgres"
+        PGRST_DB_SCHEMA: "api"
+        PGRST_DB_ANON_ROLE: "web_anon"
+        PGRST_JWT_SECRET: ${your_jwt_password}
+      restart: always
+      
+# volumes:
+#   postgres_data:
