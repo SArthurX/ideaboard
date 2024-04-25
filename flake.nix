@@ -19,11 +19,18 @@
           podman
           podman-compose
           jq
+
+          rustc 
+          cargo 
+          trunk
         ];
 
         shellHook = 
         ''
           podman-compose up -d
+
+          alias pcu='podman-compose up -d'
+          alias pcd='podman-compose down'
         '';
       };
     }
