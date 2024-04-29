@@ -31,6 +31,8 @@
 
           alias pcu='podman-compose up -d'
           alias pcd='podman-compose down'
+
+          trunk serve
         '';
       };
     }
